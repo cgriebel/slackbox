@@ -14,7 +14,7 @@ var spotifyApi = new SpotifyWebApi({
 
 function slack(res, message) {
   if (process.env.SLACK_OUTGOING === 'true') {
-    return res.send(JSON.stringify({text: message}));
+    return res.send(JSON.stringify({text: "SlackBox: " + message}));
   } else {
     return res.send(message);
   }
@@ -59,10 +59,11 @@ app.use('/store', function(req, res, next) {
 });
 
 app.post('/store', function(req, res) {
-  if(req.body.text !== "Store Hit")
+  if(req.body.text.indexOf("SlackBox:") !== -1)
   {
-    return slack(res, "Store Hit");
+    return;
   }
+  return slack(res, "Received Request - " + text);
   spotifyApi.refreshAccessToken()
     .then(function(data) {
       spotifyApi.setAccessToken(data.body['access_token']);
