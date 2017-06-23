@@ -61,7 +61,7 @@ app.use('/store', function(req, res, next) {
 app.post('/store', function(req, res) {
   if(req.body.text.indexOf("SlackBox:") !== -1)
   {
-    return;
+    return res.sendStatus(200);
   }
   return slack(res, "Received Request - " + text);
   spotifyApi.refreshAccessToken()
