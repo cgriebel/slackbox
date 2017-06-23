@@ -98,13 +98,13 @@ app.post('/store', function(req, res) {
           message += '\nPassed: [' + text + "]";
           return slack(res, message);
 
-        spotifyApi.searchTracks(query)
-          .then(function(data) {
-            var results = data.body.tracks.items;
-            if (results.length === 0) {
-              return slack(res, 'Could not find that track.');
-            }
-            var track = results[0];
+        // spotifyApi.searchTracks(query)
+        //   .then(function(data) {
+        //     var results = data.body.tracks.items;
+        //     if (results.length === 0) {
+        //       return slack(res, 'Could not find that track.');
+        //     }
+        //     var track = results[0];
             spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:0iq3MFEbuKTWJgdhwdOwXI'])
               .then(function(data) {
                 var message = 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*' + "\n " + 'spotify:track:' + track.id;
@@ -114,9 +114,9 @@ app.post('/store', function(req, res) {
               }, function(err) {
                 return slack(res, "Requested Track: [" + text + "] Error: [" + err.message + "]");
               });
-          }, function(err) {
-            return slack(res, err.message);
-          });
+          // }, function(err) {
+          //   return slack(res, err.message);
+          // });
       //}
     }, function(err) {
       return slack(res, 'Could not refresh access token. You probably need to re-authorise yourself from your app\'s homepage.');
