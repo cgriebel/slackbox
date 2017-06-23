@@ -94,7 +94,7 @@ app.post('/store', function(req, res) {
         //   var query = 'artist:' + pieces[0].trim() + ' track:' + pieces[1].trim();
         // }
 
-          message += '\nHard coded: ' + '[spotify:track:0iq3MFEbuKTWJgdhwdOwXI]';
+          var message = '\nHard coded: ' + '[spotify:track:0iq3MFEbuKTWJgdhwdOwXI]';
           message += '\nPassed: [' + text + "]";
           return slack(res, message);
 
