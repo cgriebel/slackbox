@@ -104,9 +104,9 @@ app.post('/store', function(req, res) {
         //     var track = results[0];
             spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:0iq3MFEbuKTWJgdhwdOwXI'])
               .then(function(data) {
-                var message = 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*' + "\n " + 'spotify:track:' + track.id;
-                // message = '\n[spotify:track:0iq3MFEbuKTWJgdhwdOwXI]' + ' : Hard coded:';
-                // message += '\n[' + text + "] : Passed";
+                //var message = 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*' + "\n " + 'spotify:track:' + track.id;
+                var message = '\n[spotify:track:0iq3MFEbuKTWJgdhwdOwXI]' + ' : Hard coded:';
+                message += '\n[' + text + "] : Passed";
                 return slack(res, message);
               }, function(err) {
                 return slack(res, "Requested Track: [" + text + "] Error: [" + err.message + "]");
