@@ -14,7 +14,7 @@ var spotifyApi = new SpotifyWebApi({
 
 function slack(res, message) {
   if (process.env.SLACK_OUTGOING === 'true') {
-    return res.send(JSON.stringify({text: "SlackBox: " + message}));
+    return res.send(JSON.stringify({text: message}));
   } else {
     return res.send(message);
   }
@@ -59,11 +59,11 @@ app.use('/store', function(req, res, next) {
 });
 
 app.post('/store', function(req, res) {
-  if(req.body.text.indexOf("SlackBox:") !== -1)
+  var text = req.body.text;
+  if(req.body.text !== "Store Hit")
   {
-    return res.sendStatus(200);
+    return slack(res, "Store Hit");
   }
-  return slack(res, "Received Request - " + text);
   spotifyApi.refreshAccessToken()
     .then(function(data) {
       spotifyApi.setAccessToken(data.body['access_token']);
@@ -74,7 +74,7 @@ app.post('/store', function(req, res) {
           return res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65');
       }
       //var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
-
+      var text = req.body.text;
       if(text.indexOf('spotify:track:') === -1)
       {
         return;
