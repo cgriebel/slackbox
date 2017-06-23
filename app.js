@@ -109,7 +109,12 @@ app.post('/store', function(req, res) {
                 message += '\n[' + text + "] : Passed";
                 return slack(res, message);
               }, function(err) {
-                return slack(res, "Requested Track: [" + text + "] Error: [" + err.message + "]");
+                var message = "Error: [" + err.message + "]";
+                message += '\n[spotify:track:0iq3MFEbuKTWJgdhwdOwXI]' + ' : Hard coded:';
+                message += '\n[' + text + "] : Passed";
+                message += '\n type in: ' +  typeof(text) + "equality check: " + ('spotify:track:0iq3MFEbuKTWJgdhwdOwXI' === text);
+                message += '\n length: ' + text.length + "hc length: " + ('spotify:track:0iq3MFEbuKTWJgdhwdOwXI'.length);
+                return slack(res, message);
               });
           // }, function(err) {
           //   return slack(res, err.message);
