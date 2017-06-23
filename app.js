@@ -79,37 +79,37 @@ app.post('/store', function(req, res) {
       
       
       // var text = req.body.text.substring(0, req.body.text - 1);
-      if(text.indexOf('spotify:track:') === -1)
-      {
-        return;
-      }
+      // if(text.indexOf('spotify:track:') === -1)
+      // {
+      //   return;// slack(res, 'Enter a spotify URI\nExample: spotify:track:1rIFZk9tTUtHP3vULR5wXe');
+      // }
       // else{
 
 
 
-        // if(text.indexOf(' - ') === -1) {
-        //   var query = 'track:' + text;
-        // } else {
-        //   var pieces = text.split(' - ');
-        //   var query = 'artist:' + pieces[0].trim() + ' track:' + pieces[1].trim();
-        // }
-        // spotifyApi.searchTracks(query)
-        //   .then(function(data) {
-        //     var results = data.body.tracks.items;
-        //     if (results.length === 0) {
-        //       return slack(res, 'Could not find that track.');
-        //     }
-        //     var track = results[0];
-            spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:1301WleyT98MSxVHPZCA6M'])
+        if(text.indexOf(' - ') === -1) {
+          var query = 'track:' + text;
+        } else {
+          var pieces = text.split(' - ');
+          var query = 'artist:' + pieces[0].trim() + ' track:' + pieces[1].trim();
+        }
+        spotifyApi.searchTracks(query)
+          .then(function(data) {
+            var results = data.body.tracks.items;
+            if (results.length === 0) {
+              return slack(res, 'Could not find that track.');
+            }
+            var track = results[0];
+            spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:0iq3MFEbuKTWJgdhwdOwXI'])
               .then(function(data) {
                 var message = 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*' + "\n " + 'spotify:track:' + track.id;
                 return slack(res, message);
               }, function(err) {
                 return slack(res, "Requested Track: [" + text + "] Error: [" + err.message + "]");
               });
-          // }, function(err) {
-          //   return slack(res, err.message);
-          // });
+          }, function(err) {
+            return slack(res, err.message);
+          });
       //}
     }, function(err) {
       return slack(res, 'Could not refresh access token. You probably need to re-authorise yourself from your app\'s homepage.');
