@@ -76,7 +76,7 @@ app.post('/store', function(req, res) {
 
       spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, [text])
         .then(function(data) {
-          return slack(res, "Successfully added track [" + text + "]");
+          return slack(res, "Successfully added track to playlist - spotify:user:1288604005:playlist:42xjTUqLwlGC1uDyLUdxsG");
         }, function(err) {
           return slack(res, err.message);
         });
