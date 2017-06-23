@@ -61,7 +61,7 @@ app.use('/store', function(req, res, next) {
 });
 
 app.post('/store', function(req, res) {
-  if(req.body.text.indexOf(responsePrefix) !== -1)
+  if(req.body.text.indexOf(responsePrefix) !== -1 || req.body.text.indexOf('spotify:track:') === -1)
   {
     return;
   }
