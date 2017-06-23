@@ -65,7 +65,6 @@ app.post('/store', function(req, res) {
   {
     return;
   }
-  return slack(res, "Test");
   spotifyApi.refreshAccessToken()
     .then(function(data) {
       spotifyApi.setAccessToken(data.body['access_token']);
@@ -76,6 +75,7 @@ app.post('/store', function(req, res) {
           return res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65');
       }
       var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
+      return slack(res, "Test");
       
       
       
