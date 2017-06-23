@@ -110,7 +110,7 @@ app.post('/store', function(req, res) {
           }, function(err) {
             return slack(res, err.message);
           });
-      }
+      //}
     }, function(err) {
       return slack(res, 'Could not refresh access token. You probably need to re-authorise yourself from your app\'s homepage.');
     });
