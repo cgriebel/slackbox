@@ -65,6 +65,7 @@ app.post('/store', function(req, res) {
   {
     return;
   }
+  return res.send("Test");
   spotifyApi.refreshAccessToken()
     .then(function(data) {
       spotifyApi.setAccessToken(data.body['access_token']);
