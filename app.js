@@ -102,8 +102,7 @@ app.post('/store', function(req, res) {
             }
             spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:' + track.id])
               .then(function(data) {
-                var message = 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*'
-                 + "\n " + 'spotify:track:' + track.id;
+                var message = 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*' + "\n " + 'spotify:track:' + track.id;
                 return slack(res, message);
               }, function(err) {
                 return slack(res, "Requested Track: [" + text + "] Error: [" + err.message + "]");
@@ -111,7 +110,7 @@ app.post('/store', function(req, res) {
           }, function(err) {
             return slack(res, err.message);
           });
-      //}
+      }
     }, function(err) {
       return slack(res, 'Could not refresh access token. You probably need to re-authorise yourself from your app\'s homepage.');
     });
