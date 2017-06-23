@@ -75,7 +75,7 @@ app.post('/store', function(req, res) {
           return res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65');
       }
       var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
-      
+      text = text.substring(0, text.length - 2);
       
       
       // var text = req.body.text.substring(0, req.body.text - 1);
@@ -102,7 +102,7 @@ app.post('/store', function(req, res) {
         //       return slack(res, 'Could not find that track.');
         //     }
         //     var track = results[0];
-            spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, [text.trim()])
+            spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, [text])
               .then(function(data) {
                 //var message = 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*' + "\n " + 'spotify:track:' + track.id;
                 var message = '\n[spotify:track:0iq3MFEbuKTWJgdhwdOwXI]' + ' : Hard coded:';
