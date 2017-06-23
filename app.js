@@ -79,7 +79,7 @@ app.post('/store', function(req, res) {
       var text = req.body.text;
       if(text.indexOf('spotify:track:') === -1)
       {
-        return slack(res, 'Enter a spotify URI\nExample: spotify:track:');
+        return;// slack(res, 'Enter a spotify URI\nExample: spotify:track:1rIFZk9tTUtHP3vULR5wXe');
       }
       else{
         return slack(res, "Received Request: " + text);
