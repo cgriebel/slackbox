@@ -59,8 +59,10 @@ app.use('/store', function(req, res, next) {
 });
 
 app.post('/store', function(req, res) {
-  
-  return slack(res, "Store Hit");
+  if(req.body.text !== "Store Hit")
+  {
+    return slack(res, "Store Hit");
+  }
   spotifyApi.refreshAccessToken()
     .then(function(data) {
       spotifyApi.setAccessToken(data.body['access_token']);
