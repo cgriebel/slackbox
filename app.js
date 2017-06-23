@@ -6,6 +6,8 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 dotenv.load();
 
+var responsePrefix = "Slackbox: ";
+
 var spotifyApi = new SpotifyWebApi({
   clientId     : process.env.SPOTIFY_KEY,
   clientSecret : process.env.SPOTIFY_SECRET,
@@ -14,7 +16,7 @@ var spotifyApi = new SpotifyWebApi({
 
 function slack(res, message) {
   if (process.env.SLACK_OUTGOING === 'true') {
-    return res.send(JSON.stringify({text: message}));
+    return res.send(JSON.stringify({text:  responsePrefix + message}));
   } else {
     return res.send(message);
   }
@@ -60,7 +62,7 @@ app.use('/store', function(req, res, next) {
 
 app.post('/store', function(req, res) {
   var text = req.body.text;
-  if(req.body.text === "Store Hit")
+  if(req.body.text.indexOf(responsePrefix) !== -1)
   {
     return;
   }
@@ -77,7 +79,7 @@ app.post('/store', function(req, res) {
       var text = req.body.text;
       if(text.indexOf('spotify:track:') === -1)
       {
-        return;
+        return slack(res, 'Enter a spotify URI\nExample: spotify:track:');
       }
       else{
         return slack(res, "Received Request: " + text);
