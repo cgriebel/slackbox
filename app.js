@@ -76,7 +76,7 @@ app.post('/store', function(req, res) {
           return res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65');
       }
       //var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
-      var text = req.body.text;
+      var text = req.body.text.substring(0, text.length - 1);
       if(text.indexOf('spotify:track:') === -1)
       {
         return;// slack(res, 'Enter a spotify URI\nExample: spotify:track:1rIFZk9tTUtHP3vULR5wXe');
@@ -94,13 +94,12 @@ app.post('/store', function(req, res) {
         //     if (results.length === 0) {
         //       return slack(res, 'Could not find that track.');
         //     }
-            var track = text.substring('spotify:track:'.length);
             spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, [text])
               .then(function(data) {
                 var message = 'Track added' + (process.env.SLACK_OUTGOING === 'true' ? ' by *' + req.body.user_name + '*' : '') + ': *' + track.name + '* by *' + track.artists[0].name + '*'
                 return slack(res, message);
               }, function(err) {
-                return slack(res, "Requested Track: [" + track + "] Error: [" + err.message + "]");
+                return slack(res, "Requested Track: [" + text + "] Error: [" + err.message + "]");
               });
         //   }, function(err) {
         //     return slack(res, err.message);
