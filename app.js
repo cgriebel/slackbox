@@ -75,7 +75,6 @@ app.post('/store', function(req, res) {
           return res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65');
       }
       var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
-      return slack(res, "Test");
       
       
       
@@ -96,6 +95,7 @@ app.post('/store', function(req, res) {
         }
         spotifyApi.searchTracks(query)
           .then(function(data) {
+            return slack(res, "Test Search: " + JSON.stringify(data.body.tracks.items));
             var results = data.body.tracks.items;
             if (results.length === 0) {
               return slack(res, 'Could not find that track.');
