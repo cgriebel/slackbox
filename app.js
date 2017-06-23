@@ -76,7 +76,7 @@ app.post('/store', function(req, res) {
           return res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65');
       }
       //var text = process.env.SLACK_OUTGOING === 'true' ? req.body.text.replace(req.body.trigger_word, '') : req.body.text;
-      var text = req.body.text.substring(0, text.length - 1);
+      var text = req.body.text.substring(0, req.body.text - 1);
       if(text.indexOf('spotify:track:') === -1)
       {
         return;// slack(res, 'Enter a spotify URI\nExample: spotify:track:1rIFZk9tTUtHP3vULR5wXe');
